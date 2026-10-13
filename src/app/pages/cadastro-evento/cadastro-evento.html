@@ -1,0 +1,92 @@
+<div class="pagina">
+  <div class="formulario">
+    <h1>Cadastro de Eventos</h1>
+
+    <p class="subtitulo">
+      Preencha os dados para cadastrar um novo evento.
+    </p>
+
+    <form #formEvento="ngForm" (ngSubmit)="salvar()">
+
+      <div class="campo">
+        <label for="titulo">Título do evento</label>
+        <input
+          id="titulo"
+          name="titulo"
+          type="text"
+          [(ngModel)]="evento.titulo"
+          placeholder="Digite o título do evento"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="data">Data</label>
+        <input
+          id="data"
+          name="data"
+          type="date"
+          [(ngModel)]="evento.data"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="local">Local</label>
+        <select
+          id="local"
+          name="local"
+          [(ngModel)]="evento.local"
+          required
+        >
+          <option value="" disabled>Selecione o local</option>
+          <option value="Auditório">Auditório</option>
+          <option value="Laboratório 1">Laboratório 1</option>
+          <option value="Laboratório 2">Laboratório 2</option>
+          <option value="Sala 101">Sala 101</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="emailResponsavel">E-mail do responsável</label>
+        <input
+          id="emailResponsavel"
+          name="emailResponsavel"
+          type="email"
+          [(ngModel)]="evento.emailResponsavel"
+          placeholder="exemplo@email.com"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="vagas">Vagas</label>
+        <input
+          id="vagas"
+          name="vagas"
+          type="number"
+          [(ngModel)]="evento.vagas"
+          placeholder="Digite o número de vagas"
+          min="0"
+          required
+        />
+      </div>
+
+      <button type="submit" [disabled]="formEvento.invalid">
+        Cadastrar evento
+      </button>
+    </form>
+
+    @if (eventoSalvo) {
+      <div class="resultado">
+        <h2>Evento cadastrado!</h2>
+        <p><strong>ID:</strong> {{ eventoSalvo.id }}</p>
+        <p><strong>Título:</strong> {{ eventoSalvo.titulo }}</p>
+        <p><strong>Data:</strong> {{ eventoSalvo.data }}</p>
+        <p><strong>Local:</strong> {{ eventoSalvo.local }}</p>
+        <p><strong>E-mail:</strong> {{ eventoSalvo.emailResponsavel }}</p>
+        <p><strong>Vagas:</strong> {{ eventoSalvo.vagas }}</p>
+      </div>
+    }
+  </div>
+</div>
