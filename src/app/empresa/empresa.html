@@ -1,0 +1,97 @@
+<div class="pagina">
+  <div class="formulario">
+    <h1>Cadastro de Empresa</h1>
+
+    <p class="subtitulo">
+      Preencha os dados da empresa para registrar a organização.
+    </p>
+
+    <form #formEmpresa="ngForm" (ngSubmit)="salvar()">
+      <div class="campo">
+        <label for="nome">Nome</label>
+        <input
+          id="nome"
+          name="nome"
+          type="text"
+          [(ngModel)]="empresa.nome"
+          placeholder="Digite o nome da empresa"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="cnpj">CNPJ</label>
+        <input
+          id="cnpj"
+          name="cnpj"
+          type="text"
+          [(ngModel)]="empresa.cnpj"
+          placeholder="00.000.000/0000-00"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="logomarca">Logomarca</label>
+        <input
+          id="logomarca"
+          name="logomarca"
+          type="url"
+          [(ngModel)]="empresa.logomarca"
+          placeholder="https://exemplo.com/logo.png"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="fundacao">Fundação</label>
+        <input
+          id="fundacao"
+          name="fundacao"
+          type="date"
+          [(ngModel)]="empresa.fundacao"
+          required
+        />
+      </div>
+
+      <div class="campo">
+        <label for="descricao">Descrição</label>
+        <textarea
+          id="descricao"
+          name="descricao"
+          rows="5"
+          [(ngModel)]="empresa.descricao"
+          placeholder="Descreva a empresa"
+          required
+        ></textarea>
+      </div>
+
+      <div class="botoes">
+        <button type="reset" class="botao-secundario" (click)="resetarFormulario()">
+          Limpar
+        </button>
+
+        <button type="submit" [disabled]="formEmpresa.invalid">
+          Enviar
+        </button>
+      </div>
+    </form>
+
+    @if (empresaSalva) {
+      <div class="resultado">
+        <h2>Empresa cadastrada</h2>
+        <p><strong>Nome:</strong> {{ empresaSalva.nome }}</p>
+        <p><strong>CNPJ:</strong> {{ empresaSalva.cnpj }}</p>
+        <p><strong>Fundação:</strong> {{ empresaSalva.fundacao }}</p>
+        <p><strong>Descrição:</strong> {{ empresaSalva.descricao }}</p>
+
+        @if (empresaSalva.logomarca) {
+          <div class="logo-preview">
+            <strong>Logomarca:</strong>
+            <img [src]="empresaSalva.logomarca" alt="Logomarca da empresa" />
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

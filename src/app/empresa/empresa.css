@@ -1,0 +1,117 @@
+.pagina {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.formulario {
+  width: min(100%, 700px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  color: #1f2937;
+}
+
+.subtitulo {
+  margin: 0 0 1.5rem;
+  color: #4b5563;
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+}
+
+.campo {
+  display: grid;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 600;
+  color: #374151;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f9fafb;
+  box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.3);
+  border-color: #60a5fa;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+button {
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+  padding: 0.85rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.resultado {
+  margin-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1.5rem;
+}
+
+.resultado h2 {
+  margin-top: 0;
+  color: #111827;
+}
+
+.resultado p {
+  margin: 0.5rem 0;
+  color: #374151;
+}
+
+.logo-preview {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.logo-preview img {
+  max-width: 180px;
+  max-height: 120px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #f3f4f6;
+  padding: 0.5rem;
+}

@@ -1,8 +1,10 @@
+
 import { Routes } from '@angular/router';
 import { Home } from './home/home';
 import { Pessoa } from './pessoa/pessoa';
 import { Padrao } from './padrao/padrao';
 import { CadastroEvento } from './pages/cadastro-evento/cadastro-evento';
+import { Empresa } from './empresa/empresa';
 import { NaoEncontrada } from './nao-encontrada/nao-encontrada';
 
 export const routes: Routes = [
@@ -11,9 +13,9 @@ export const routes: Routes = [
   { path: 'home', component: Home },
   { path: 'pessoa', component: Pessoa },
   { path: 'padrao', component: Padrao },
-
   { path: 'eventos', component: CadastroEvento },
   { path: 'cadastro-evento', component: CadastroEvento },
+  { path: 'empresa', component: Empresa },
 
   { path: '**', component: NaoEncontrada }
 ];
