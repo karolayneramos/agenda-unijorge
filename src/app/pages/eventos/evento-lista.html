@@ -1,0 +1,19 @@
+<div class="card">
+  <h2>Eventos</h2>
+  <a routerLink="/eventos/novo"><button>Novo Evento</button></a>
+  <div *ngIf="loading">Carregando...</div>
+  <div *ngIf="erro" role="alert">{{ erro }}</div>
+  <table>
+    <thead><tr><th>Título</th><th>Data</th><th>Local</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let e of eventos">
+        <td><a [routerLink]="['/eventos', e.id, 'participantes']">{{ e.titulo }}</a></td><td>{{ e.data }}</td><td>{{ e.local }}</td>
+        <td>
+          <a [routerLink]="['/eventos', e.id, 'editar']"><button>Editar</button></a>
+          <button (click)="excluir(e)">Excluir</button>
+          <a [routerLink]="['/eventos', e.id, 'participantes']"><button>Detalhes e participantes</button></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

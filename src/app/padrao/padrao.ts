@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   Cadastro,
@@ -12,6 +14,7 @@ import {
   rascunhoEmBranco
 } from './padrao.model';
 import { validarRascunho } from './padrao.validacao';
+import { PadraoService } from '../services/padrao.service';
 
 /**
  * COMPONENTE DE REFERENCIA
@@ -29,11 +32,18 @@ import { validarRascunho } from './padrao.validacao';
  */
 @Component({
   selector: 'app-padrao',
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './padrao.html',
   styleUrl: './padrao.css'
 })
-export class Padrao {
+export class Padrao implements OnInit {
+  id: number | null = null;
+  modo: 'criar' | 'editar' = 'criar';
+  cadastrados: Cadastro[] = [];
+  loading = false;
+  saving = false;
+  formularioDisponivel = true;
+  erro = '';
 
   readonly titulo = 'Formulario padrao';
 
@@ -44,7 +54,56 @@ export class Padrao {
 
   tocados: CamposTocados = {};
 
-  cadastrados: Cadastro[] = [];
+  constructor(
+    private service: PadraoService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.modo = 'editar';
+      this.id = Number(idParam);
+      if (!Number.isInteger(this.id) || this.id <= 0) {
+        this.erro = 'O cadastro informado é inválido.';
+        this.formularioDisponivel = false;
+        return;
+      }
+    }
+
+    this.carregarDados();
+  }
+
+  private carregarDados(): void {
+    this.loading = true;
+    this.service.listar().subscribe({
+      next: (cadastrados) => {
+        this.cadastrados = cadastrados;
+        if (this.id === null) {
+          this.loading = false;
+          return;
+        }
+        this.service.buscarPorId(this.id).subscribe({
+          next: (cadastro) => {
+            const { id, ...dados } = cadastro;
+            this.rascunho = { ...dados, senha: '', confirmarSenha: '' };
+            this.loading = false;
+          },
+          error: () => {
+            this.erro = 'Não foi possível carregar o cadastro para edição.';
+            this.formularioDisponivel = false;
+            this.loading = false;
+          }
+        });
+      },
+      error: () => {
+        this.erro = 'Não foi possível carregar os cadastros.';
+        if (this.id !== null) this.formularioDisponivel = false;
+        this.loading = false;
+      }
+    });
+  }
 
   /**
    * GETTER, e nao campo.
@@ -54,15 +113,18 @@ export class Padrao {
    * chamar "revalidar".
    */
   get erros(): ErrosCadastro {
-    return validarRascunho(this.rascunho, this.cadastrados);
+    return validarRascunho(
+      this.rascunho,
+      this.cadastrados.filter((cadastro) => cadastro.id !== this.id)
+    );
   }
 
   get quantidadeDeErros(): number {
-    return Object.keys(this.erros).length;
+    return Object.keys(this.erros).filter((c) => this.tocados[c as CampoDoFormulario]).length;
   }
 
   get temErro(): boolean {
-    return this.quantidadeDeErros > 0;
+    return Object.keys(this.erros).length > 0;
   }
 
   /** So mostra a mensagem se a pessoa JA SAIU do campo. */
@@ -87,23 +149,28 @@ export class Padrao {
   }
 
   salvar(): void {
+    if (this.saving || this.loading || !this.formularioDisponivel) return;
     if (this.temErro) {
       this.mostrarTudo();
       return;
     }
 
-    // 1. uma COPIA, nunca o proprio rascunho: senao a lista e o formulario
-    //    passam a apontar para o mesmo objeto e o cartao muda enquanto se digita
-    // 2. sem o confirmarSenha, que nao existe no modelo
-    const { confirmarSenha, ...dados } = this.rascunho;
+    this.saving = true;
+    this.erro = '';
+    const { senha, confirmarSenha, ...dados } = this.rascunho;
+    void senha;
     void confirmarSenha;
 
-    this.cadastrados = [
-      ...this.cadastrados,
-      { id: this.proximoId(), ...dados }
-    ];
-
-    this.limpar();
+    const request = this.id === null
+      ? this.service.criar(dados)
+      : this.service.atualizar(this.id, dados);
+    request.subscribe({
+      next: () => this.router.navigate(['/padrao']),
+      error: () => {
+        this.erro = 'Não foi possível salvar o cadastro.';
+        this.saving = false;
+      }
+    });
   }
 
   limpar(): void {
@@ -111,12 +178,7 @@ export class Padrao {
     this.tocados = {};
   }
 
-  remover(id: number): void {
-    this.cadastrados = this.cadastrados.filter(c => c.id !== id);
-  }
-
-  private proximoId(): number {
-    const maior = this.cadastrados.reduce((max, c) => Math.max(max, c.id), 0);
-    return maior + 1;
+  voltar(): void {
+    this.router.navigate(['/padrao']);
   }
 }

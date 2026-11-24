@@ -1,0 +1,14 @@
+<div class="card">
+  <h2>{{ modo === 'criar' ? 'Novo Evento' : 'Editar Evento' }}</h2>
+  <div *ngIf="loading">Carregando...</div>
+  <div *ngIf="erro" role="alert">{{ erro }}</div>
+  <form #formEvento="ngForm" (ngSubmit)="salvar()">
+    <input [(ngModel)]="evento.titulo" name="titulo" placeholder="Título" required /><br/>
+    <input [(ngModel)]="evento.data" name="data" type="date" required /><br/>
+    <input [(ngModel)]="evento.local" name="local" placeholder="Local" required /><br/>
+    <input [(ngModel)]="evento.emailResponsavel" name="email" type="email" placeholder="E-mail responsável" required /><br/>
+    <input [(ngModel)]="evento.vagas" name="vagas" type="number" min="0" required /><br/>
+    <button type="submit" [disabled]="formEvento.invalid || saving || loading">Salvar</button>
+    <button type="button" (click)="voltar()">Voltar</button>
+  </form>
+</div>

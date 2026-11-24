@@ -1,0 +1,25 @@
+<section class="card">
+  <h2>Pessoas</h2>
+  <a routerLink="/pessoas/novo"><button type="button">Cadastrar pessoa</button></a>
+  <p *ngIf="loading">Carregando...</p>
+  <p *ngIf="erro" role="alert">{{ erro }}</p>
+  <p *ngIf="!loading && !erro && pessoas.length === 0">Nenhuma pessoa cadastrada.</p>
+
+  <table *ngIf="pessoas.length > 0">
+    <thead>
+      <tr><th>Nome</th><th>CPF</th><th>E-mail</th><th>Telefone</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pessoa of pessoas">
+        <td>{{ pessoa.nomeCompleto }}</td>
+        <td>{{ pessoa.cpf }}</td>
+        <td>{{ pessoa.email }}</td>
+        <td>{{ pessoa.telefone }}</td>
+        <td>
+          <a [routerLink]="['/pessoas', pessoa.id, 'editar']"><button type="button">Editar</button></a>
+          <button type="button" (click)="excluir(pessoa)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

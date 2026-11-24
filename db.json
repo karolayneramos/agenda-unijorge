@@ -1,0 +1,126 @@
+{
+  "eventos": [
+    {
+      "id": 1,
+      "titulo": "Workshop Angular",
+      "data": "2026-12-01",
+      "local": "Lab 1",
+      "emailResponsavel": "resp@uni.com",
+      "vagas": 30
+    },
+    {
+      "id": 2,
+      "titulo": "Hackathon UNIJORGE",
+      "data": "2026-12-15",
+      "local": "Auditório",
+      "emailResponsavel": "hack@uni.com",
+      "vagas": 50
+    }
+  ],
+  "participantes": [
+    {
+      "id": 1,
+      "descricao": "Aluno 1",
+      "email": "a1@uni.com",
+      "telefone": "71999990001",
+      "formaPagamento": "PIX",
+      "eventoId": 1
+    },
+    {
+      "id": 2,
+      "descricao": "Aluno 2",
+      "email": "a2@uni.com",
+      "telefone": "71999990002",
+      "formaPagamento": "Cartão",
+      "eventoId": 1
+    },
+    {
+      "id": 3,
+      "descricao": "Equipe X",
+      "email": "x@uni.com",
+      "telefone": "71999990003",
+      "formaPagamento": "Boleto",
+      "eventoId": 2
+    }
+  ],
+  "pessoas": [
+    {
+      "id": 1,
+      "nomeCompleto": "Ana Souza",
+      "dataNascimento": "1998-04-15",
+      "cpf": "111.222.333-44",
+      "rg": "123456789",
+      "nomePai": "Carlos Souza",
+      "nomeMae": "Maria Souza",
+      "paisOrigem": "Brasil",
+      "ufOrigem": "BA",
+      "cidadeOrigem": "Salvador",
+      "email": "ana.souza@example.com",
+      "telefone": "71999990001"
+    },
+    {
+      "id": 2,
+      "nomeCompleto": "Bruno Lima",
+      "dataNascimento": "2000-09-22",
+      "cpf": "222.333.444-55",
+      "rg": "987654321",
+      "nomePai": "Paulo Lima",
+      "nomeMae": "Fernanda Lima",
+      "paisOrigem": "Brasil",
+      "ufOrigem": "BA",
+      "cidadeOrigem": "Feira de Santana",
+      "email": "bruno.lima@example.com",
+      "telefone": "71999990002"
+    }
+  ],
+  "empresas": [
+    {
+      "id": 1,
+      "nome": "Horizonte Tecnologia",
+      "cnpj": "12.345.678/0001-90",
+      "logomarca": "https://example.com/horizonte-logo.png",
+      "fundacao": "2018-03-12",
+      "descricao": "Empresa fictícia de soluções digitais para demonstração."
+    },
+    {
+      "id": 2,
+      "nome": "Bahia Inovação",
+      "cnpj": "98.765.432/0001-10",
+      "logomarca": "https://example.com/bahia-inovacao-logo.png",
+      "fundacao": "2021-08-25",
+      "descricao": "Organização fictícia voltada a projetos de inovação."
+    }
+  ],
+  "cadastros": [
+    {
+      "id": 1,
+      "nome": "Carla Santos",
+      "dataNascimento": "1999-05-10",
+      "genero": "feminino",
+      "email": "carla.santos@example.com",
+      "telefone": "71999990003",
+      "cep": "40000000",
+      "vinculo": "aluno",
+      "curso": "Engenharia de Computacao",
+      "matricula": "2026001",
+      "semestre": 3,
+      "receberEmails": true,
+      "observacoes": "Cadastro fictício para demonstração."
+    },
+    {
+      "id": 2,
+      "nome": "Diego Almeida",
+      "dataNascimento": "1987-11-02",
+      "genero": "masculino",
+      "email": "diego.almeida@example.com",
+      "telefone": "71999990004",
+      "cep": "40100000",
+      "vinculo": "professor",
+      "curso": "Sistemas de Informacao",
+      "matricula": "",
+      "semestre": null,
+      "receberEmails": false,
+      "observacoes": "Cadastro fictício para demonstração."
+    }
+  ]
+}

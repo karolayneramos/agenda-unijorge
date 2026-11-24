@@ -1,0 +1,15 @@
+<div class="card">
+  <h2>{{ modo === 'criar' ? 'Novo Participante' : 'Editar Participante' }}</h2>
+  <div *ngIf="loading">Carregando...</div>
+  <div *ngIf="erro" role="alert">{{ erro }}</div>
+  <form #formParticipante="ngForm" (ngSubmit)="salvar()">
+    <input [(ngModel)]="participante.descricao" name="descricao" placeholder="Descrição" required /><br/>
+    <input [(ngModel)]="participante.email" name="email" type="email" placeholder="E-mail" required /><br/>
+    <input [(ngModel)]="participante.telefone" name="telefone" placeholder="Telefone" required /><br/>
+    <select [(ngModel)]="participante.formaPagamento" name="formaPagamento" required>
+      <option *ngFor="let f of formas" [value]="f">{{ f }}</option>
+    </select><br/>
+    <button type="submit" [disabled]="formParticipante.invalid || saving || loading || !vinculoValidado">Salvar</button>
+    <button type="button" (click)="voltar()">Voltar</button>
+  </form>
+</div>

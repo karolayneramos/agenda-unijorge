@@ -12,11 +12,17 @@
 -->
 
 <header class="cabeca">
-  <h2>{{ titulo }}</h2>
+  <h2>{{ modo === 'criar' ? titulo : 'Editar cadastro' }}</h2>
   <p>Componente de referência: campos, validações e regras cruzadas.</p>
 </header>
 
-<form class="ficha" (ngSubmit)="salvar()" novalidate>
+@if (erro) {
+  <p class="resumo erro" role="alert">{{ erro }}</p>
+}
+
+<p *ngIf="loading">Carregando...</p>
+<form *ngIf="formularioDisponivel" class="ficha" (ngSubmit)="salvar()" novalidate>
+  <p class="dica">A senha é usada para validação, mas não é salva no JSON Server. Ao editar, informe uma nova senha.</p>
 
   @if (temErro) {
     <p class="resumo erro">{{ quantidadeDeErros }} campo(s) com erro</p>
@@ -239,7 +245,8 @@
   </fieldset>
 
   <div class="acoes">
-    <button type="submit" [disabled]="temErro">Salvar</button>
+    <button type="submit" [disabled]="saving || loading">{{ saving ? 'Salvando...' : 'Salvar' }}</button>
+    <button type="button" class="secundario" (click)="voltar()">Voltar</button>
     <button type="button" class="secundario" (click)="limpar()">Limpar</button>
   </div>
   <small class="dica aviso">
@@ -247,20 +254,3 @@
     Quem protege de verdade é o servidor.
   </small>
 </form>
-
-<!-- ========================= RESULTADO ========================= -->
-<section class="lista">
-  <h3>Cadastrados ({{ cadastrados.length }})</h3>
-
-  @for (c of cadastrados; track c.id) {
-    <article class="cartao">
-      <div>
-        <b>{{ c.nome }}</b>
-        <span>{{ c.email }} &middot; {{ c.vinculo }} &middot; {{ c.curso }}</span>
-      </div>
-      <button type="button" class="secundario" (click)="remover(c.id)">Remover</button>
-    </article>
-  } @empty {
-    <p class="vazio">Nenhum cadastro ainda. Preencha a ficha acima.</p>
-  }
-</section>

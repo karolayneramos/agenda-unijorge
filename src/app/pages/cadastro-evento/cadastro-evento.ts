@@ -1,55 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { EventoService } from '../../services/evento.service';
 import { Evento } from '../../models/evento';
+import { ParticipantesEvento } from '../participantes-evento/participantes-evento';
 
 @Component({
   selector: 'app-cadastro-evento',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule, ParticipantesEvento],
   templateUrl: './cadastro-evento.html',
   styleUrl: './cadastro-evento.css'
 })
-export class CadastroEvento {
-  proximoId = 1;
+export class CadastroEvento implements OnInit {
+  eventos: Evento[] = [];
+  eventoSelecionado: number | null = null;
+  evento: Omit<Evento, 'id'> = { titulo: '', data: '', local: '', emailResponsavel: '', vagas: 0 };
+  loading = false;
+  erro = '';
 
-  evento: Omit<Evento, 'id'> = {
-    titulo: '',
-    data: '',
-    local: '',
-    emailResponsavel: '',
-    vagas: null
-  };
+  constructor(private svc: EventoService) {}
+  ngOnInit() { this.carregar(); }
 
-  eventoSalvo: Evento | null = null;
+  carregar() {
+    this.loading = true;
+    this.erro = '';
+    this.svc.listar().subscribe({
+      next: (l) => { this.eventos = l; this.loading = false; },
+      error: () => { this.erro = 'Não foi possível carregar os eventos.'; this.loading = false; }
+    });
+  }
 
-  salvar(): void {
-    if (
-      !this.evento.titulo.trim() ||
-      !this.evento.data ||
-      !this.evento.local ||
-      !this.evento.emailResponsavel.trim() ||
-      this.evento.vagas === null ||
-      this.evento.vagas < 0
-    ) {
-      alert('Preencha todos os campos corretamente.');
-      return;
-    }
-
-    this.eventoSalvo = {
-      id: this.proximoId++,
-      ...this.evento
-    };
-
-    console.log('Evento cadastrado:', this.eventoSalvo);
-
-    alert('Evento cadastrado com sucesso!');
-
-    this.evento = {
-      titulo: '',
-      data: '',
-      local: '',
-      emailResponsavel: '',
-      vagas: null
-    };
+  salvar() {
+    this.erro = '';
+    this.svc.criar(this.evento).subscribe({
+      next: () => { this.evento = { titulo: '', data: '', local: '', emailResponsavel: '', vagas: 0 }; this.carregar(); },
+      error: () => { this.erro = 'Não foi possível cadastrar o evento.'; }
+    });
   }
 }

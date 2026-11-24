@@ -1,12 +1,16 @@
 <header class="cabeca">
-  <h2>{{ titulo }}</h2>
+  <h2>{{ modo === 'criar' ? titulo : 'Editar pessoa' }}</h2>
   <p>Cadastro de pessoa.</p>
 </header>
+
+<p *ngIf="loading">Carregando...</p>
+<p *ngIf="erro" class="erro" role="alert">{{ erro }}</p>
 
 <form
   class="ficha"
   (ngSubmit)="salvar()"
   novalidate
+  *ngIf="!loading && formularioDisponivel"
 >
 
   @if (temErro) {
@@ -274,70 +278,18 @@
   <div class="acoes">
     <button
       type="submit"
-      [disabled]="temErro"
+      [disabled]="saving"
     >
-      Salvar
+      {{ saving ? 'Salvando...' : 'Salvar' }}
     </button>
 
     <button
       type="button"
-      (click)="limpar()"
+      (click)="voltar()"
     >
-      Limpar
+      Voltar
     </button>
+    <button type="button" (click)="limpar()">Limpar</button>
   </div>
 
 </form>
-
-@if (cadastrados.length > 0) {
-  <section class="resultados">
-    <h3>Pessoas cadastradas</h3>
-
-    @for (pessoa of cadastrados; track pessoa.id) {
-      <article class="cartao">
-
-        <h4>{{ pessoa.nomeCompleto }}</h4>
-
-        <p>
-          <strong>CPF:</strong>
-          {{ pessoa.cpf }}
-        </p>
-
-        <p>
-          <strong>RG:</strong>
-          {{ pessoa.rg }}
-        </p>
-
-        <p>
-          <strong>Data de nascimento:</strong>
-          {{ pessoa.dataNascimento }}
-        </p>
-
-        <p>
-          <strong>Origem:</strong>
-          {{ pessoa.cidadeOrigem }} -
-          {{ pessoa.ufOrigem }},
-          {{ pessoa.paisOrigem }}
-        </p>
-
-        <p>
-          <strong>E-mail:</strong>
-          {{ pessoa.email }}
-        </p>
-
-        <p>
-          <strong>Telefone:</strong>
-          {{ pessoa.telefone }}
-        </p>
-
-        <button
-          type="button"
-          (click)="remover(pessoa.id)"
-        >
-          Remover
-        </button>
-
-      </article>
-    }
-  </section>
-}

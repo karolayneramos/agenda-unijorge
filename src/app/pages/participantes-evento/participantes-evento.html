@@ -1,0 +1,47 @@
+<section>
+  <h3>Participantes</h3>
+  <div *ngIf="loading">Carregando...</div>
+  <div *ngIf="erro" style="color:red">{{ erro }}</div>
+
+  <form (ngSubmit)="adicionar()" style="margin-bottom:1rem">
+    <input [(ngModel)]="novo.descricao" name="descricao" placeholder="Descrição" required />
+    <input [(ngModel)]="novo.email" name="email" placeholder="E-mail" required />
+    <input [(ngModel)]="novo.telefone" name="telefone" placeholder="Telefone" required />
+    <select [(ngModel)]="novo.formaPagamento" name="formaPagamento">
+      <option *ngFor="let f of formas" [value]="f">{{ f }}</option>
+    </select>
+    <button type="submit">Adicionar Participante</button>
+  </form>
+
+  <table border="1" cellpadding="4">
+    <thead><tr><th>Descrição</th><th>E-mail</th><th>Telefone</th><th>Pagamento</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let p of participantes">
+        <ng-container *ngIf="editando?.id === p.id; else view">
+          <td><input [(ngModel)]="editando!.descricao" /></td>
+          <td><input [(ngModel)]="editando!.email" /></td>
+          <td><input [(ngModel)]="editando!.telefone" /></td>
+          <td>
+            <select [(ngModel)]="editando!.formaPagamento">
+              <option *ngFor="let f of formas" [value]="f">{{ f }}</option>
+            </select>
+          </td>
+          <td>
+            <button (click)="salvarEdicao()">Salvar</button>
+            <button (click)="editando=null">Cancelar</button>
+          </td>
+        </ng-container>
+        <ng-template #view>
+          <td>{{ p.descricao }}</td>
+          <td>{{ p.email }}</td>
+          <td>{{ p.telefone }}</td>
+          <td>{{ p.formaPagamento }}</td>
+          <td>
+            <button (click)="iniciarEdicao(p)">Editar</button>
+            <button (click)="excluir(p.id)">Excluir</button>
+          </td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+</section>

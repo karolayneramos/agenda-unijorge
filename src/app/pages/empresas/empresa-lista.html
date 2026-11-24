@@ -1,0 +1,24 @@
+<section class="card">
+  <h2>Empresas</h2>
+  <a routerLink="/empresas/novo"><button type="button">Cadastrar empresa</button></a>
+  <p *ngIf="loading">Carregando...</p>
+  <p *ngIf="erro" role="alert">{{ erro }}</p>
+  <p *ngIf="!loading && !erro && empresas.length === 0">Nenhuma empresa cadastrada.</p>
+
+  <table *ngIf="empresas.length > 0">
+    <thead>
+      <tr><th>Nome</th><th>CNPJ</th><th>Fundação</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empresa of empresas">
+        <td>{{ empresa.nome }}</td>
+        <td>{{ empresa.cnpj }}</td>
+        <td>{{ empresa.fundacao }}</td>
+        <td>
+          <a [routerLink]="['/empresas', empresa.id, 'editar']"><button type="button">Editar</button></a>
+          <button type="button" (click)="excluir(empresa)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

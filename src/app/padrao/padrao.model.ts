@@ -27,7 +27,7 @@ export const CURSOS: Curso[] = [
   'Ciencia da Computacao'
 ];
 
-/** O que fica guardado depois de salvar. */
+/** Dados públicos do cadastro; a senha nunca é persistida. */
 export interface Cadastro {
   id: number;
   nome: string;
@@ -40,17 +40,15 @@ export interface Cadastro {
   curso: Curso;
   matricula: string;
   semestre: number | null;
-  senha: string;
   receberEmails: boolean;
   observacoes: string;
 }
 
 /**
  * O que existe ENQUANTO SE DIGITA.
- * Omit tira o id (so existe depois de salvar) e o & acrescenta
- * a confirmacao de senha, que ninguem guarda.
+ * A senha e sua confirmação são usadas somente durante o preenchimento.
  */
-export type Rascunho = Omit<Cadastro, 'id'> & { confirmarSenha: string };
+export type Rascunho = Omit<Cadastro, 'id'> & { senha: string; confirmarSenha: string };
 
 /**
  * Os nomes dos campos, derivados do tipo acima.
@@ -81,8 +79,8 @@ export function rascunhoEmBranco(): Rascunho {
     curso: '',
     matricula: '',
     semestre: null,
-    senha: '',
     confirmarSenha: '',
+    senha: '',
     receberEmails: false,
     observacoes: ''
   };

@@ -1,0 +1,32 @@
+<div class="card">
+  <h2>{{ evento?.titulo || 'Evento' }}</h2>
+  <div *ngIf="erroEvento" role="alert">{{ erroEvento }}</div>
+  <dl *ngIf="evento">
+    <dt>Data</dt>
+    <dd>{{ evento.data }}</dd>
+    <dt>Local</dt>
+    <dd>{{ evento.local }}</dd>
+    <dt>Responsável</dt>
+    <dd>{{ evento.emailResponsavel }}</dd>
+    <dt>Vagas</dt>
+    <dd>{{ evento.vagas ?? 'Não informado' }}</dd>
+  </dl>
+  <h3>Participantes</h3>
+  <a [routerLink]="['/eventos', eventoId, 'participantes', 'novo']"><button>Novo Participante</button></a>
+  <a routerLink="/eventos"><button>Voltar</button></a>
+  <div *ngIf="loading">Carregando...</div>
+  <div *ngIf="erroParticipantes" role="alert">{{ erroParticipantes }}</div>
+  <p *ngIf="!loading && !erroParticipantes && participantes.length === 0">Nenhum participante cadastrado neste evento.</p>
+  <table>
+    <thead><tr><th>Descrição</th><th>E-mail</th><th>Telefone</th><th>Pagamento</th><th>Ações</th></tr></thead>
+    <tbody>
+      <tr *ngFor="let p of participantes">
+        <td>{{ p.descricao }}</td><td>{{ p.email }}</td><td>{{ p.telefone }}</td><td>{{ p.formaPagamento }}</td>
+        <td>
+          <a [routerLink]="['/eventos', eventoId, 'participantes', p.id, 'editar']"><button>Editar</button></a>
+          <button (click)="excluir(p)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

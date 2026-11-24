@@ -50,17 +50,18 @@ Confira com `ng version`.
 
 ## 2. Rodando o projeto pela primeira vez
 
-São dois comandos. O primeiro só na primeira vez; o segundo, toda aula.
+Instale as dependências uma vez e inicie o Angular junto com o JSON Server:
 
 ```bash
 # 1. baixa as bibliotecas (demora alguns minutos)
 npm install
 
-# 2. compila e sobe o servidor local
-npm start
+# 2. inicia a API em localhost:3000 e o Angular em localhost:4200
+npm run all
 ```
 
-Abra no navegador: **http://localhost:4200**
+Abra no navegador: **http://localhost:4200**. Para iniciar cada processo em um
+terminal separado, use `npm run server` e `npm start`.
 
 A tela recarrega sozinha a cada `Ctrl+S`. Deixe o comando rodando enquanto
 trabalha — **aquele terminal fica ocupado**. Precisa de outro comando? Abra um
@@ -93,7 +94,9 @@ Olhe o `package.json`:
 "scripts": {
   "start": "ng serve",
   "build": "ng build",
-  "test":  "ng test"
+  "test":   "ng test",
+  "server": "json-server --watch db.json --port 3000",
+  "all":    "concurrently \"npm run server\" \"npm start\""
 }
 ```
 
@@ -108,13 +111,15 @@ PATH, use `npm start` — ou chame a cópia local com `npx ng serve`.
 
 ### Pelos atalhos do npm
 
-São os quatro que estão escritos no `package.json`. **Funcionam mesmo sem o CLI
+São os comandos definidos no `package.json`. **Funcionam mesmo sem o CLI
 instalado globalmente.**
 
 | Comando | Equivale a | O que faz |
 |---|---|---|
 | `npm install` | — | baixa as bibliotecas. Só na primeira vez, ou quando o `package.json` mudar |
 | `npm start` | `ng serve` | compila e sobe em `localhost:4200`, recompilando a cada salvamento |
+| `npm run server` | `json-server --watch db.json --port 3000` | inicia a API fake em `localhost:3000` |
+| `npm run all` | `concurrently ...` | inicia a API e o Angular juntos |
 | `npm run build` | `ng build` | gera a versão final, otimizada, na pasta `dist/` |
 | `npm test` | `ng test` | roda os testes automatizados |
 | `npm run watch` | `ng build --watch --configuration development` | recompila para o `dist/` a cada salvamento, sem subir servidor |
@@ -153,13 +158,20 @@ Se o `ng` não estiver no seu PATH, chame a cópia local do projeto com `npx`:
 
 ## 5. O que tem neste projeto
 
-Com o servidor rodando, o menu leva a três telas:
+Com os dois servidores rodando, o menu leva às listagens dos módulos:
 
 | Rota | Componente | O que é |
 |---|---|---|
 | `/home` | `Home` | tela inicial |
-| `/pessoa` | `Pessoa` | componente simples, da aula de componentes |
-| `/padrao` | **`Padrao`** | **o formulário de referência** |
+| `/pessoas` | `PessoaLista` | listagem de pessoas |
+| `/pessoas/novo` | `Pessoa` | cadastro de pessoa |
+| `/padrao` | `PadraoLista` | cadastros do formulário padrão na sessão |
+| `/empresas` | `EmpresaLista` | listagem de empresas |
+| `/eventos` | `EventoLista` | listagem de eventos |
+
+Cada listagem oferece cadastro, edição e exclusão. Os dados do formulário padrão, Pessoa, Empresa e Evento usam o JSON Server em
+`db.json`. A senha do formulário padrão é usada apenas para validação e não é
+persistida.
 
 ---
 

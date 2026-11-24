@@ -1,0 +1,25 @@
+<section class="card">
+  <h2>Formulário padrão</h2>
+  <a routerLink="/padrao/novo"><button type="button">Novo cadastro</button></a>
+  <p *ngIf="loading">Carregando...</p>
+  <p *ngIf="erro" role="alert">{{ erro }}</p>
+
+  <p *ngIf="!loading && !erro && cadastrados.length === 0">Nenhum cadastro encontrado.</p>
+  <table *ngIf="cadastrados.length > 0">
+    <thead>
+      <tr><th>Nome</th><th>E-mail</th><th>Vínculo</th><th>Curso</th><th>Ações</th></tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cadastro of cadastrados">
+        <td>{{ cadastro.nome }}</td>
+        <td>{{ cadastro.email }}</td>
+        <td>{{ cadastro.vinculo }}</td>
+        <td>{{ cadastro.curso }}</td>
+        <td>
+          <a [routerLink]="['/padrao', cadastro.id, 'editar']"><button type="button">Editar</button></a>
+          <button type="button" (click)="excluir(cadastro)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
